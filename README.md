@@ -1,1 +1,136 @@
-# Retail Goods ManagerA mobile application built with **React Native** and **Expo** to help users efficiently track, manage, and analyze their retail purchases. This app provides an intuitive interface for adding purchases, editing goods, visualizing spending trends, and exporting data, all while storing information locally for offline access.## Features- **Add Purchases**: Easily input purchase details with a date picker, dynamic item entries, real-time amount calculations, and suggestions based on previous rates.- **Edit & Delete**: Modify or remove individual items within a purchase or delete entire purchases directly from the home screen.- **Spending Trends**: Visualize monthly spending with an interactive line chart, powered by `react-native-chart-kit`.- **CSV Export**: Export purchase data as CSV files (individual or bulk), optimized for Excel compatibility.- **User-Friendly Design**: Cancel unwanted item additions, navigate back without saving, and receive clear on-screen error messages for invalid inputs.- **Offline Support**: Uses `AsyncStorage` for local data persistence, ensuring functionality without an internet connection.## Prerequisites- **Node.js** (v16 or higher recommended)- **npm** or **yarn**- **Expo CLI**: Install globally with `npm install -g expo-cli`- **Expo Go**: Mobile app for testing on iOS/Android devices## Installation1. **Clone the Repository**:```bashgit clone https://github.com/tanmayraut45/retail-goods-manager.gitcd retail-goods-manager```2. **Install Dependencies**:```bashnpm install```or```bashyarn install```3. **Start the Expo Development Server**:```bashnpx expo start```- Scan the QR code with the **Expo Go** app on your mobile device to run the app.- Alternatively, press `i` for iOS simulator or `a` for Android emulator if set up.## Usage1. **Home Screen**:- View a list of saved purchases.- Search by date or item name.- Tap "Edit Purchases" to delete entries or click a purchase to view/edit details.- Export all purchases as a CSV file using the download icon in the header.2. **Add Purchase**:- Select a date with the picker, add items with name, quantity, and rate.- Use "Add Another Item" to include more goods; cancel unwanted items with the "X" button.- Save or go back without saving.3. **Purchase Details**:- View itemized details of a purchase.- Tap "Edit" to modify items, add new ones, or remove existing ones, then save changes.4. **Spending Trends**:- See a line chart of monthly spending based on purchase data.## Technologies Used- **React Native**: Core framework for mobile app development.- **Expo**: Simplified development and deployment workflow.- **TypeScript**: Type safety and improved code maintainability.- **AsyncStorage**: Local storage for offline data persistence (backend replacement).- **React Navigation**: Stack navigation between screens.- **expo-linear-gradient**: Gradient styling for UI elements.- **expo-file-system & expo-sharing**: CSV file generation and export.- **react-native-chart-kit**: Line chart for spending trends.- **@react-native-community/datetimepicker**: Date selection UI.- **@expo/vector-icons**: Material icons for buttons and actions.## Project Structure```retail-goods-manager/├── src/│   ├── screens/│   │   ├── HomeScreen.tsx        # Purchase list and edit/delete│   │   ├── AddPurchaseScreen.tsx # Add new purchases│   │   ├── PurchaseDetailsScreen.tsx # View/edit purchase details│   │   └── SpendingScreen.tsx    # Spending trends chart│   ├── store/│   │   └── storage.tsx           # AsyncStorage logic│   └── utils/│       └── csvUtils.tsx          # CSV export functionality├── App.tsx                       # Main app entry with navigation├── package.json                  # Dependencies and scripts└── README.md                     # This file```## ContributingContributions are welcome! To contribute:1. Fork the repository.2. Create a new branch (`git checkout -b feature/your-feature`).3. Make your changes and commit (`git commit -m "Add your feature"`).4. Push to your branch (`git push origin feature/your-feature`).5. Open a pull request with a description of your changes.Please ensure your code follows the existing style and includes appropriate comments.## LicenseThis project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.## Acknowledgments- Built with guidance from modern React Native best practices.- Special thanks to the open-source community for the amazing libraries used.---Happy coding! Feel free to reach out with questions or feedback.
+You’re right—having everything in a dense paragraph can make the `README.md` less visually appealing and harder to skim. I’ll redesign it with better spacing, headings, bullet points, and Markdown formatting to make it more attractive and readable. Below is an updated, well-structured version of the `README.md` content that you can use in VS Code and push to your GitHub repo.
+
+---
+
+### Updated `README.md` Content (Attractive Design)
+
+```markdown
+# Retail Goods Manager
+
+A sleek and intuitive mobile app crafted with **React Native** and **Expo** to empower users in tracking, managing, and analyzing retail purchases effortlessly. Store data locally, visualize spending trends, and export records—all in one place!
+
+---
+
+## ✨ Features
+
+- **Add Purchases**: Input details with a date picker, dynamic items, real-time calculations, and past rate suggestions.
+- **Edit & Delete**: Update or remove items within purchases, or delete entire entries from the home screen.
+- **Spending Trends**: See monthly spending with a stylish line chart via `react-native-chart-kit`.
+- **CSV Export**: Download purchase data as CSV files (single or bulk), Excel-ready.
+- **User-Friendly**: Cancel item additions, exit without saving, and get clear error messages.
+- **Offline Ready**: Powered by `AsyncStorage` for seamless offline use.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js**: v16 or higher
+- **npm** or **yarn**
+- **Expo CLI**: `npm install -g expo-cli`
+- **Expo Go**: App for iOS/Android testing
+
+### Installation
+
+1. **Clone the Repo**  
+   ```bash
+   git clone https://github.com/tanmayraut45/retail-goods-manager.git
+   cd retail-goods-manager
+   ```
+
+2. **Install Dependencies**  
+   ```bash
+   npm install
+   ```
+   _or_
+   ```bash
+   yarn install
+   ```
+
+3. **Launch the App**  
+   ```bash
+   npx expo start
+   ```
+   - Scan the QR code with **Expo Go**.
+   - Or use `i` (iOS simulator) / `a` (Android emulator).
+
+---
+
+## 📱 How to Use
+
+### Home Screen
+- Browse saved purchases.
+- Search by date or item.
+- Tap "Edit Purchases" to delete or dive into details.
+- Export all data with the header download button.
+
+### Add Purchase
+- Pick a date, add items (name, quantity, rate).
+- Use "Add Another Item" and cancel extras with "X".
+- Save or back out anytime.
+
+### Purchase Details
+- View item breakdowns.
+- Hit "Edit" to tweak, add, or remove items, then save.
+
+### Spending Trends
+- Check out a line chart of your monthly spending.
+
+---
+
+## 🛠️ Tech Stack
+
+- **React Native**: Mobile app foundation
+- **Expo**: Streamlined dev workflow
+- **TypeScript**: Type-safe code
+- **AsyncStorage**: Local data storage
+- **React Navigation**: Smooth screen transitions
+- **expo-linear-gradient**: Gradient UI flair
+- **expo-file-system & expo-sharing**: CSV export magic
+- **react-native-chart-kit**: Trend visualization
+- **@react-native-community/datetimepicker**: Date picker
+- **@expo/vector-icons**: Icon goodness
+
+---
+
+## 📂 Project Structure
+
+```
+retail-goods-manager/
+├── src/
+│   ├── screens/
+│   │   ├── HomeScreen.tsx         # List and edit purchases
+│   │   ├── AddPurchaseScreen.tsx  # Add new purchases
+│   │   ├── PurchaseDetailsScreen.tsx # Edit purchase details
+│   │   └── SpendingScreen.tsx     # Spending trends chart
+│   ├── store/
+│   │   └── storage.tsx            # AsyncStorage logic
+│   └── utils/
+│       └── csvUtils.tsx           # CSV export utils
+├── App.tsx                        # App entry & navigation
+├── package.json                   # Dependencies & scripts
+└── README.md                      # You’re here!
+```
+
+---
+
+## 🤝 Contributing
+
+Love to see your input! Here’s how:
+1. Fork this repo.
+2. Branch out: `git checkout -b feature/your-cool-idea`.
+3. Commit changes: `git commit -m "Added cool idea"`.
+4. Push it: `git push origin feature/your-cool-idea`.
+5. Open a pull request with details.
+
+*Keep code style consistent and comments clear!*
+
+---
+
+## 🙏 Acknowledgments
+
+- Inspired by React Native best practices.
+- Big thanks to the open-source community for stellar libraries!
+
+---
