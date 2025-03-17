@@ -1,10 +1,3 @@
-You’re right—having everything in a dense paragraph can make the `README.md` less visually appealing and harder to skim. I’ll redesign it with better spacing, headings, bullet points, and Markdown formatting to make it more attractive and readable. Below is an updated, well-structured version of the `README.md` content that you can use in VS Code and push to your GitHub repo.
-
----
-
-### Updated `README.md` Content (Attractive Design)
-
-```markdown
 # Retail Goods Manager
 
 A sleek and intuitive mobile app crafted with **React Native** and **Expo** to empower users in tracking, managing, and analyzing retail purchases effortlessly. Store data locally, visualize spending trends, and export records—all in one place!
