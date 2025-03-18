@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.tanmay45.RetailGoodsManager"
+      "package": "com.tanmay45.RetailGoodsManager",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -29,6 +30,15 @@
       "eas": {
         "projectId": "9d9aa250-7b4d-4cc9-9815-6d39a08e63c5"
       }
+    },
+    "plugins": [
+      "expo-splash-screen"
+    ],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
     }
   }
 }

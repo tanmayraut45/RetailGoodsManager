@@ -4,26 +4,33 @@ import { Purchase } from '../store/storage';
 
 export const exportToCSV = async (purchases: Purchase[]) => {
   try {
-    // CSV header with BOM for Excel compatibility
-    let csvContent = '\uFEFFDate,Item,Quantity,Rate,Amount,Total\n'; // BOM (\uFEFF) ensures Excel opens UTF-8 correctly
+    const headers = ['Date,Item Name,Quantity,Rate,Amount,Total'];
+    const rows = purchases.flatMap((purchase) =>
+      purchase.items.map((item) =>
+        `${purchase.date},${item.name},${item.quantity},${item.rate},${item.amount},${purchase.total}`
+      )
+    );
+    const csvContent = headers.concat(rows).join('\n');
 
-    // Build CSV rows
-    purchases.forEach((purchase) => {
-      purchase.items.forEach((item) => {
-        csvContent += `${purchase.date},${item.name},${item.quantity},${item.rate},${item.amount},${purchase.total}\n`;
-      });
-    });
+    const fileUri = `${FileSystem.documentDirectory}purchase_${Date.now()}.csv`;
 
-    // Use .csv extension (Excel-compatible)
-    const fileName = purchases.length === 1 ? `purchase_${purchases[0].date}_${Date.now()}.csv` : `purchases_${Date.now()}.csv`;
-    const fileUri = `${FileSystem.documentDirectory}${fileName}`;
-    await FileSystem.writeAsStringAsync(fileUri, csvContent, {
+    // Write UTF-8 BOM for Excel compatibility
+    const BOM = '\uFEFF';
+    await FileSystem.writeAsStringAsync(fileUri, BOM + csvContent, {
       encoding: FileSystem.EncodingType.UTF8,
     });
 
-    // Share the file
-    await Sharing.shareAsync(fileUri, { mimeType: 'text/csv', dialogTitle: 'Save Purchase Data' });
-  } catch (e) {
-    console.error('Error exporting CSV:', e);
+    // Share the CSV file
+    if (await Sharing.isAvailableAsync()) {
+      await Sharing.shareAsync(fileUri, {
+        mimeType: 'text/csv',
+        dialogTitle: 'Share your purchase data',
+        UTI: 'public.comma-separated-values-text', // iOS-specific
+      });
+    } else {
+      console.log('Sharing is not available on this device');
+    }
+  } catch (error) {
+    console.error('Error exporting to CSV:', error);
   }
 };

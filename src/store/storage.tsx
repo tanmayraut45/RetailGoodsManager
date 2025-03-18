@@ -21,7 +21,12 @@ export const loadPurchases = async (): Promise<Purchase[]> => {
     const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
     const data = jsonValue != null ? JSON.parse(jsonValue) : [];
     console.log('Raw AsyncStorage data:', jsonValue);
-    return data;
+    // Type guard to ensure data is an array of Purchase
+    if (!Array.isArray(data)) {
+      console.error('Stored data is not an array:', data);
+      return [];
+    }
+    return data as Purchase[];
   } catch (e) {
     console.error('Error loading purchases:', e);
     return [];
@@ -62,7 +67,6 @@ export const getPreviousRates = async (itemName: string): Promise<{ date: string
   }).slice(0, 5);
 };
 
-// New function to update an existing purchase
 export const updatePurchase = async (updatedPurchase: Purchase): Promise<void> => {
   const purchases = await loadPurchases();
   const updatedPurchases = purchases.map((p) => (p.id === updatedPurchase.id ? updatedPurchase : p));

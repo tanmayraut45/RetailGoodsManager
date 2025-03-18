@@ -1,12 +1,93 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, FlatList, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { loadPurchases, savePurchases, Purchase } from '../store/storage';
-import { exportToCSV } from '../utils/csvUtils';
 import { RootStackParamList } from '../../App';
+import * as Print from 'expo-print';
+import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
+
+// Function to generate HTML for a single purchase
+const createPurchaseHtml = (purchase: Purchase) => {
+  const itemsHtml = purchase.items
+    .map(item => `<tr><td>${item.name}</td><td>${item.quantity}</td><td>₹${item.rate}</td><td>₹${item.amount}</td></tr>`)
+    .join('');
+  return `
+    <style>
+      table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; }
+      th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
+      th { background-color: #f2f2f2; }
+      h2 { color: #1E3A8A; }
+      p { font-weight: bold; }
+    </style>
+    <h2>Purchase on ${purchase.date}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${itemsHtml}
+      </tbody>
+    </table>
+    <p>Total: ₹${purchase.total}</p>
+  `;
+};
+
+// Function to generate HTML for all purchases
+const createAllPurchasesHtml = (purchases: Purchase[]) => {
+  const purchasesHtml = purchases
+    .map(purchase => createPurchaseHtml(purchase))
+    .join('<hr style="margin: 20px 0;">');
+  return `
+    <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; }
+          hr { border: 1px solid #ddd; }
+        </style>
+      </head>
+      <body>
+        <h1>All Purchases</h1>
+        ${purchasesHtml}
+      </body>
+    </html>
+  `;
+};
+
+// Function to generate and share PDF
+const generateAndSharePDF = async (html: string, fileName: string) => {
+  try {
+    const { uri } = await Print.printToFileAsync({
+      html,
+      base64: false,
+    });
+    const newUri = `${FileSystem.documentDirectory}${fileName}.pdf`;
+    await FileSystem.moveAsync({
+      from: uri,
+      to: newUri,
+    });
+    if (await Sharing.isAvailableAsync()) {
+      await Sharing.shareAsync(newUri, {
+        mimeType: 'application/pdf',
+        dialogTitle: `Share ${fileName}`,
+        UTI: 'com.adobe.pdf',
+      });
+    } else {
+      Alert.alert('Error', 'Sharing is not available on this device.');
+    }
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    Alert.alert('Error', 'Failed to generate or share PDF.');
+  }
+};
 
 const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -36,7 +117,8 @@ const HomeScreen = () => {
   };
 
   const handleDownload = (purchase: Purchase) => {
-    exportToCSV([purchase]);
+    const html = createPurchaseHtml(purchase);
+    generateAndSharePDF(html, `Purchase_${purchase.date}`);
   };
 
   const handleDelete = async (purchaseId: string) => {
@@ -45,11 +127,16 @@ const HomeScreen = () => {
     setPurchases(updatedPurchases);
   };
 
+  const handleExportAll = () => {
+    const html = createAllPurchasesHtml(purchases);
+    generateAndSharePDF(html, 'All_Purchases');
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient colors={['#1E3A8A', '#3B82F6']} style={styles.header}>
         <Text style={styles.headerText}>Retail Goods Manager</Text>
-        <TouchableOpacity style={styles.exportButton} onPress={() => exportToCSV(purchases)}>
+        <TouchableOpacity style={styles.exportButton} onPress={handleExportAll}>
           <MaterialIcons name="file-download" size={24} color="#FFFFFF" />
         </TouchableOpacity>
       </LinearGradient>
